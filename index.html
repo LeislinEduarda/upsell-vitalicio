@@ -23,9 +23,26 @@
     }
 
     /* ========= Base ========= */
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--text)}
-    body{font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Inter,"Helvetica Neue",Arial,"Noto Sans";}
-    .page{max-width:860px;margin:0 auto;padding:0 18px}
+    html,body{
+      margin:0;
+      padding:0;
+      background:var(--bg);
+      color:var(--text);
+      height:100%;
+    }
+    body{
+      font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Inter,"Helvetica Neue",Arial,"Noto Sans";
+      padding-top:72px; /* compensar a topbar fixa */
+    }
+    .page{
+      max-width:860px;
+      margin:0 auto;
+      padding:0 18px 18px;
+      min-height:calc(100vh - 72px);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
 
     /* ========= Top Timer (duas linhas, fixo) ========= */
     .topbar{
@@ -45,17 +62,17 @@
     .topbar.warn{background:#B05C00;}     /* <= 5 min */
     .topbar.urgent{background:#7C1E28;}   /* <= 2 min */
 
-    /* Compensação da barra fixa */
-    body{padding-top:72px}
-
     /* ========= Card / Dobra Única ========= */
     .card{
-      margin:14px auto 28px;
+      margin:0 auto;
       border:1px solid #EAEAEA; border-radius:16px; background:#fff;
       box-shadow:0 6px 24px rgba(0,0,0,.06);
-      padding:16px 14px 18px;
+      padding:18px 16px 20px;
+      max-width:780px;
     }
-    @media(min-width:640px){ .card{padding:20px 22px 22px} }
+    @media(min-width:640px){
+      .card{padding:20px 22px 22px}
+    }
 
     /* Alerta principal */
     .main-alert{
@@ -74,51 +91,43 @@
     .alert-sub{margin:0; color:#333; font-size:15px}
 
     /* Headline + frase compacta */
-    .headline{margin:8px 0 2px 0; text-align:center; color:var(--green); font-size:20px; font-weight:800}
-    .pitch{margin:6px auto 18px; text-align:center; max-width:520px; color:var(--muted); font-size:15px}
+    .headline{
+      margin:8px 0 2px 0;
+      text-align:center; color:var(--green);
+      font-size:18px; font-weight:800;
+    }
+    .pitch{
+      margin:6px auto 14px;
+      text-align:center; max-width:520px;
+      color:var(--muted); font-size:14px;
+    }
 
-    /* Preço (DE → POR ou rótulo → preço) */
-    .price{display:grid; place-items:center; gap:2px; margin:10px 0 4px}
-    .price .from{color:#9c9c9c; font-size:14px; text-transform:uppercase; letter-spacing:.4px}
-    .price .to{color:var(--wine); font-weight:900; font-size:clamp(28px,6vw,40px); line-height:1.1}
+    /* Preço (investimento único → R$ 388) */
+    .price{
+      display:grid; place-items:center; gap:2px; margin:8px 0 4px;
+    }
+    .price .from{
+      color:#9c9c9c; font-size:12px;
+      text-transform:uppercase; letter-spacing:.4px;
+    }
+    .price .to{
+      color:var(--wine); font-weight:900;
+      font-size:clamp(26px,5.5vw,36px); line-height:1.1;
+    }
 
-    /* CTA Greenn (duas linhas) */
-    .center-btn-preview{display:flex; justify-content:center}
-    .btn-secondary{
-      cursor:pointer; width:320px; height:76px;
-      color:#fff; background:var(--green);
-      border:2px solid var(--gold); border-radius:12px; font-weight:800;
-      display:flex; align-items:center; justify-content:center; flex-direction:column;
-      transition:transform .06s ease, box-shadow .12s ease;
-      box-shadow:0 10px 30px rgba(29,77,58,.16);
+    .tiny{
+      font-size:11px;
+      color:#666;
       text-align:center;
+      margin-top:8px;
+      font-style:italic;
     }
-    .btn-secondary .btn-title{font-size:20px; line-height:1.05; letter-spacing:.2px}
-    .btn-secondary .btn-sub{font-size:12px; opacity:.9; margin-top:2px}
-    .btn-secondary[data-loading="true"]{opacity:.9}
-    .btn-secondary:active{transform:translateY(1px)}
 
-    /* Badge "Prefiro..." */
-    .cta-badge{
-      display:inline-block;
-      margin:12px auto 0;
-      padding:8px 14px;
-      background:var(--badge-bg);
-      border:1px solid var(--badge-br);
-      border-radius:999px;
-      text-transform:uppercase;
-      font-size:11px; font-weight:800;
-      color:#6b4b2a;
-      letter-spacing:.6px;
+    .center-btn-preview{
+      display:flex;
+      justify-content:center;
+      margin-top:14px;
     }
-    .cta-wrap{display:flex; justify-content:center}
-
-    /* Texto minúsculo */
-    .tiny{font-size:12px; color:#666; text-align:center; margin-top:10px; font-style:italic}
-    
-    /* Espaço maior entre preço e CTA */
-    .space-cta{margin-top:18px}
-    @media(min-width:480px){ .space-cta{margin-top:22px} }
   </style>
 </head>
 <body>
@@ -152,37 +161,44 @@
       </h2>
       <p class="pitch">
         Paga uma vez agora e tem acesso para sempre: todos os conteúdos, atualizações, métodos
-        e a evolução do Estúdio ao longo dos anos, sem se preocupar em renovar ou perder o acesso.
+        e a evolução do Estúdio ao longo dos anos, sem se preocupar em renovar.
       </p>
 
-      <!-- PREÇO (investimento único → R$ 388) -->
+      <!-- PREÇO -->
       <div class="price" aria-label="Investimento único, acesso vitalício">
         <div class="from">investimento único desta página</div>
         <div class="to">R$ 388</div>
       </div>
 
-      <!-- Espaço maior antes do CTA -->
-      <div class="space-cta"></div>
-
-      <!-- CTA (Greenn) — duas linhas -->
-      <div class="center-btn-preview">
+      <!-- NOVO BLOCO DE BOTÃO + LINK (como enviado) -->
+      <div data-v-10de2152="" class="center-btn-preview">
         <button
+          data-v-10de2152=""
           data-greenn-one-click="false"
-          data-greenn-upsell="5029"
+          data-greenn-upsell="5066"
           data-greenn-split="1"
           data-loading="false"
           onclick="startLoading(this)"
           type="button"
-          class="btn btn-preview-anime btn-secondary">
-          <span class="btn-title">GARANTIR ACESSO VITALÍCIO</span>
-          <span class="btn-sub">(pagamento único — acesso pra sempre)</span>
+          class="btn btn-preview-anime btn-secondary"
+          style="cursor: pointer; width: 300px; height: 60px; font-size: 20px; color: rgb(255, 255, 255); background: rgb(56, 87, 26); border: 2px solid rgb(170, 121, 66); border-radius: 12px; font-weight: bold;">
+          ENTRAR NO ESTÚDIO (acesso vitalicio)
         </button>
       </div>
 
-      <!-- Badge centralizada -->
-      <div class="cta-wrap">
-        <a id="not-buy-link" href="https://obrigado.conteudoinfinito.com/" class="cta-badge">
-          Prefiro não ter acesso vitalício
+      <div data-v-10de2152="" class="center-btn-preview">
+        <!---->
+      </div>
+
+      <div data-v-10de2152="" class="center-btn-preview">
+        <a
+          data-v-10de2152=""
+          id="not-buy-link"
+          href="https://obrigado.conteudoinfinito.com/"
+          target="_blank"
+          class="mt-2 pointer"
+          style="display: flex; font-family: Montserrat; justify-content: center; width: 300px; cursor: pointer; font-size: 10px; color: rgb(0, 0, 0); font-style: italic;">
+          PREFIRO PERDER ESSA OPORTUNIDADE
         </a>
       </div>
 
@@ -211,6 +227,7 @@
         button.innerHTML = originalHTML;
       }, 3000);
     };
+
     (function (w, d, s, t) {
       if (w._greennUp) return;
       w._greennUp = t;
