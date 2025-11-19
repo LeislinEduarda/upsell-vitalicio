@@ -1,1 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Upsell — Estúdio Infinito</title>
+  <meta name="theme-color" content="#1D4D3A">
+  <meta name="description" content="Ative sua Equipe Não-Humana e publique sem post em 58 minutos." />
+
+  <style>
+    /* ========= Tokens ========= */
+    :root{
+      --bg:#ffffff;
+      --text:#1a1a1a;
+      --muted:#6A6A6A;
+      --green:#1D4D3A;
+      --wine:#7C1E28;
+      --gold:#AA7942;
+      --soft-red:#fff4f4;
+      --hard-red:#ff5c5c;
+      --badge-bg:#FFF7E8;
+      --badge-br:#EED9BD;
+    }
+
+    /* ========= Base ========= */
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text)}
+    body{font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Inter,"Helvetica Neue",Arial,"Noto Sans";}
+    .page{max-width:860px;margin:0 auto;padding:0 18px}
+
+    /* ========= Top Timer (duas linhas, fixo) ========= */
+    .topbar{
+      position:fixed; top:0; left:0; right:0;
+      background:var(--green); color:#fff;
+      z-index:9999; text-align:center;
+      padding:8px 10px; line-height:1.25; box-shadow:0 2px 10px rgba(0,0,0,.12);
+    }
+    .topbar .line-1{font-weight:800; letter-spacing:.2px}
+    .topbar .line-2{display:block; font-weight:900; font-size:20px; margin-top:2px}
+    .topbar .timer-pulse{animation:pulse 1.1s ease-in-out infinite}
+    @keyframes pulse{
+      0%{text-shadow:0 0 0 rgba(0,0,0,0)}
+      70%{text-shadow:0 0 10px rgba(255,255,255,.32)}
+      100%{text-shadow:0 0 0 rgba(0,0,0,0)}
+    }
+    .topbar.warn{background:#B05C00;}     /* <= 5 min */
+    .topbar.urgent{background:#7C1E28;}   /* <= 2 min */
+
+    /* Compensação da barra fixa */
+    body{padding-top:72px}
+
+    /* ========= Card / Dobra Única ========= */
+    .card{
+      margin:14px auto 28px;
+      border:1px solid #EAEAEA; border-radius:16px; background:#fff;
+      box-shadow:0 6px 24px rgba(0,0,0,.06);
+      padding:16px 14px 18px;
+    }
+    @media(min-width:640px){ .card{padding:20px 22px 22px} }
+
+    /* Alerta principal */
+    .main-alert{
+      background:var(--soft-red);
+      border:2px solid var(--hard-red);
+      border-radius:14px;
+      padding:12px;
+      display:flex; gap:10px; align-items:flex-start;
+      margin:2px auto 12px; max-width:720px;
+    }
+    .alert-icon{font-size:24px; flex:0 0 28px}
+    .alert-title{
+      margin:0 0 4px 0; color:var(--wine);
+      font-size:clamp(18px,4.5vw,24px); line-height:1.18; font-weight:900;
+    }
+    .alert-sub{margin:0; color:#333; font-size:15px}
+
+    /* Headline + frase compacta */
+    .headline{margin:8px 0 2px 0; text-align:center; color:var(--green); font-size:20px; font-weight:800}
+    .pitch{margin:6px auto 18px; text-align:center; max-width:520px; color:var(--muted); font-size:15px}
+
+    /* Preço (DE → POR) */
+    .price{display:grid; place-items:center; gap:2px; margin:10px 0 4px}
+    .price .from{color:#9c9c9c; text-decoration:line-through; font-size:18px}
+    .price .to{color:var(--wine); font-weight:900; font-size:clamp(28px,6vw,40px); line-height:1.1}
+
+    /* CTA Greenn (duas linhas) */
+    .center-btn-preview{display:flex; justify-content:center}
+    .btn-secondary{
+      cursor:pointer; width:320px; height:76px;
+      color:#fff; background:var(--green);
+      border:2px solid var(--gold); border-radius:12px; font-weight:800;
+      display:flex; align-items:center; justify-content:center; flex-direction:column;
+      transition:transform .06s ease, box-shadow .12s ease;
+      box-shadow:0 10px 30px rgba(29,77,58,.16);
+      text-align:center;
+    }
+    .btn-secondary .btn-title{font-size:22px; line-height:1.05; letter-spacing:.2px}
+    .btn-secondary .btn-sub{font-size:12px; opacity:.9; margin-top:2px}
+    .btn-secondary[data-loading="true"]{opacity:.9}
+    .btn-secondary:active{transform:translateY(1px)}
+
+    /* Badge "Prefiro ficar atrasado" */
+    .cta-badge{
+      display:inline-block;
+      margin:12px auto 0;
+      padding:8px 14px;
+      background:var(--badge-bg);
+      border:1px solid var(--badge-br);
+      border-radius:999px;
+      text-transform:uppercase;
+      font-size:11px; font-weight:800;
+      color:#6b4b2a;
+      letter-spacing:.6px;
+    }
+    .cta-wrap{display:flex; justify-content:center}
+
+    /* Texto minúsculo */
+    .tiny{font-size:12px; color:#666; text-align:center; margin-top:10px; font-style:italic}
+    
+    /* Espaço maior entre preço e CTA */
+    .space-cta{margin-top:18px}
+    @media(min-width:480px){ .space-cta{margin-top:22px} }
+  </style>
+</head>
+<body>
+
+  <!-- TIMER FIXO (duas linhas) -->
+  <div class="topbar" id="topbar" role="region" aria-label="Oferta temporária">
+    <div class="line-1">Oferta exclusiva desta página. Não recarregue ou você pode perder.</div>
+    <strong class="line-2 timer-pulse"><span id="timer">08:00</span></strong>
+  </div>
+
+  <main class="page" role="main">
+    <!-- DOBRA ÚNICA -->
+    <section class="card" aria-labelledby="upsell-h1">
+
+      <!-- ALERTA -->
+      <div class="main-alert" role="alert" aria-live="polite">
+        <div class="alert-icon">⚠️</div>
+        <div class="alert-text">
+          <h1 class="alert-title">Você ainda não finalizou sua compra!</h1>
+          <p class="alert-sub">Última e única chance de ativar sua Equipe Não Humana com este valor.</p>
+        </div>
+      </div>
+
+      <!-- HEADLINE + PROMESSA CURTA -->
+      <h2 id="upsell-h1" class="headline">2 a cada 3 pessoas que compram o guia entram para o Estúdio Infinito</h2>
+      <p class="pitch">Você pode tentar fazer sozinha… ou deixar seus 10 funcionários não humanos fazerem cada parte com você.</p>
+
+      <!-- PREÇO (DE → POR) -->
+      <div class="price" aria-label="Preço promocional">
+        <div class="from">de R$ 388</div>
+        <div class="to">por R$ 188</div>
+      </div>
+
+      <!-- Espaço maior antes do CTA -->
+      <div class="space-cta"></div>
+
+      <!-- CTA (Greenn) — duas linhas -->
+      <div class="center-btn-preview">
+        <button
+          data-greenn-one-click="false"
+          data-greenn-upsell="5029"
+          data-greenn-split="1"
+          data-loading="false"
+          onclick="startLoading(this)"
+          type="button"
+          class="btn btn-preview-anime btn-secondary">
+          <span class="btn-title">ENTRAR NO ESTÚDIO</span>
+          <span class="btn-sub">(acesso imediato)</span>
+        </button>
+      </div>
+
+      <!-- Badge centralizada -->
+      <div class="cta-wrap">
+        <a id="not-buy-link" href="https://obrigado.conteudoinfinito.com/" class="cta-badge">Prefiro ficar atrasado</a>
+      </div>
+
+      <p class="tiny">Não recarregue a página — ao sair, esta condição pode não aparecer novamente.</p>
+    </section>
+  </main>
+
+  <!-- TIMER + URGÊNCIA + GRENN -->
+  <script>
+    // Loader do botão + script da Greenn
+    window.startLoading = function(button) {
+      const originalHTML = button.innerHTML;
+      button.setAttribute('data-loading', 'true');
+      button.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="#ffffff" d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" opacity=".25"/>
+          <path fill="#ffffff" d="M12,4a8,8,0,0,1,7.89,6.7A1.53,1.53,0,0,0,21.38,12h0a1.5,1.5,0,0,0,1.48-1.75,11,11,0,0,0-21.72,0A1.5,1.5,0,0,0,2.62,12h0a1.53,1.53,0,0,0,1.49-1.3A8,8,0,0,1,12,4Z">
+            <animateTransform attributeName="transform" dur="0.75s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/>
+          </path>
+        </svg>
+        <span style="margin-top:6px; font-size:12px;">processando…</span>`;
+      setTimeout(() => {
+        button.setAttribute('data-loading', 'false');
+        button.innerHTML = originalHTML;
+      }, 3000);
+    };
+    (function (w, d, s, t) {
+      if (w._greennUp) return;
+      w._greennUp = t;
+      var f = d.getElementsByTagName(s)[0], j = d.createElement(s);
+      j.async = true; j.src = "https://pay.greenn.com.br/assets/upsell.js?v=" + t;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, "script", Date.now());
+
+    // Timer 8 minutos com mudança de cor (alerta/urgência)
+    (function(){
+      let time = 8 * 60; // 8 min em segundos
+      const el = document.getElementById('timer');
+      const bar = document.getElementById('topbar');
+
+      function tick(){
+        const m = String(Math.floor(time/60)).padStart(2,'0');
+        const s = String(time%60).padStart(2,'0');
+        el.textContent = `${m}:${s}`;
+
+        // Mudança de cor progressiva
+        if(time <= 120){              // <= 2 min
+          bar.classList.add('urgent');
+          bar.classList.remove('warn');
+        } else if(time <= 300){       // <= 5 min
+          bar.classList.add('warn');
+        }
+
+        // Pulso mais forte nos últimos 30s
+        if(time <= 30) el.classList.add('timer-pulse');
+
+        if(time > 0){
+          time--;
+          setTimeout(tick, 1000);
+        }
+      }
+      tick();
+    })();
+  </script>
+</body>
+</html>
 
