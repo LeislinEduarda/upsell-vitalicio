@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Upsell — Estúdio Infinito</title>
+  <title>Oferta Vitalícia — Estúdio Infinito</title>
   <meta name="theme-color" content="#1D4D3A">
-  <meta name="description" content="Ative sua Equipe Não-Humana e publique sem post em 58 minutos." />
+  <meta name="description" content="Oferta vitalícia única desta página: 1x de R$ 388 para ter acesso ao Estúdio Infinito para sempre." />
 
   <style>
     /* ========= Tokens ========= */
@@ -77,9 +77,9 @@
     .headline{margin:8px 0 2px 0; text-align:center; color:var(--green); font-size:20px; font-weight:800}
     .pitch{margin:6px auto 18px; text-align:center; max-width:520px; color:var(--muted); font-size:15px}
 
-    /* Preço (DE → POR) */
+    /* Preço (DE → POR ou rótulo → preço) */
     .price{display:grid; place-items:center; gap:2px; margin:10px 0 4px}
-    .price .from{color:#9c9c9c; text-decoration:line-through; font-size:18px}
+    .price .from{color:#9c9c9c; font-size:14px; text-transform:uppercase; letter-spacing:.4px}
     .price .to{color:var(--wine); font-weight:900; font-size:clamp(28px,6vw,40px); line-height:1.1}
 
     /* CTA Greenn (duas linhas) */
@@ -93,12 +93,12 @@
       box-shadow:0 10px 30px rgba(29,77,58,.16);
       text-align:center;
     }
-    .btn-secondary .btn-title{font-size:22px; line-height:1.05; letter-spacing:.2px}
+    .btn-secondary .btn-title{font-size:20px; line-height:1.05; letter-spacing:.2px}
     .btn-secondary .btn-sub{font-size:12px; opacity:.9; margin-top:2px}
     .btn-secondary[data-loading="true"]{opacity:.9}
     .btn-secondary:active{transform:translateY(1px)}
 
-    /* Badge "Prefiro ficar atrasado" */
+    /* Badge "Prefiro..." */
     .cta-badge{
       display:inline-block;
       margin:12px auto 0;
@@ -124,8 +124,8 @@
 <body>
 
   <!-- TIMER FIXO (duas linhas) -->
-  <div class="topbar" id="topbar" role="region" aria-label="Oferta temporária">
-    <div class="line-1">Oferta exclusiva desta página. Não recarregue ou você pode perder.</div>
+  <div class="topbar" id="topbar" role="region" aria-label="Oferta vitalícia exclusiva">
+    <div class="line-1">Oferta vitalícia exclusiva desta página. Não recarregue ou você pode perder.</div>
     <strong class="line-2 timer-pulse"><span id="timer">08:00</span></strong>
   </div>
 
@@ -137,19 +137,28 @@
       <div class="main-alert" role="alert" aria-live="polite">
         <div class="alert-icon">⚠️</div>
         <div class="alert-text">
-          <h1 class="alert-title">Você ainda não finalizou sua compra!</h1>
-          <p class="alert-sub">Última e única chance de ativar sua Equipe Não Humana com este valor.</p>
+          <h1 class="alert-title">Você destravou uma oferta que quase ninguém vê.</h1>
+          <p class="alert-sub">
+            A condição vitalícia do <b>Estúdio Infinito™</b> foi aberta só para uma parte das compras desta Black —
+            é a mesma oferta que eu abri apenas para os meus alunos.  
+            Você deu sorte de cair nessa página. Agora é 1x de <b>R$ 388</b> para ter acesso pra sempre.
+          </p>
         </div>
       </div>
 
       <!-- HEADLINE + PROMESSA CURTA -->
-      <h2 id="upsell-h1" class="headline">2 a cada 3 pessoas que compram o guia entram para o Estúdio Infinito</h2>
-      <p class="pitch">Você pode tentar fazer sozinha… ou deixar seus 10 funcionários não humanos fazerem cada parte com você.</p>
+      <h2 id="upsell-h1" class="headline">
+        Por 1x de R$ 388, você vira Membro Vitalício do Estúdio Infinito™.
+      </h2>
+      <p class="pitch">
+        Paga uma vez agora e tem acesso para sempre: todos os conteúdos, atualizações, métodos
+        e a evolução do Estúdio ao longo dos anos, sem se preocupar em renovar ou perder o acesso.
+      </p>
 
-      <!-- PREÇO (DE → POR) -->
-      <div class="price" aria-label="Preço promocional">
-        <div class="from">de R$ 388</div>
-        <div class="to">por R$ 188</div>
+      <!-- PREÇO (investimento único → R$ 388) -->
+      <div class="price" aria-label="Investimento único, acesso vitalício">
+        <div class="from">investimento único desta página</div>
+        <div class="to">R$ 388</div>
       </div>
 
       <!-- Espaço maior antes do CTA -->
@@ -165,17 +174,21 @@
           onclick="startLoading(this)"
           type="button"
           class="btn btn-preview-anime btn-secondary">
-          <span class="btn-title">ENTRAR NO ESTÚDIO</span>
-          <span class="btn-sub">(acesso imediato)</span>
+          <span class="btn-title">GARANTIR ACESSO VITALÍCIO</span>
+          <span class="btn-sub">(pagamento único — acesso pra sempre)</span>
         </button>
       </div>
 
       <!-- Badge centralizada -->
       <div class="cta-wrap">
-        <a id="not-buy-link" href="https://obrigado.conteudoinfinito.com/" class="cta-badge">Prefiro ficar atrasado</a>
+        <a id="not-buy-link" href="https://obrigado.conteudoinfinito.com/" class="cta-badge">
+          Prefiro não ter acesso vitalício
+        </a>
       </div>
 
-      <p class="tiny">Não recarregue a página — ao sair, esta condição pode não aparecer novamente.</p>
+      <p class="tiny">
+        Ao sair desta página, esta condição volta para o valor normal e você pode não ver mais essa oferta vitalícia.
+      </p>
     </section>
   </main>
 
@@ -238,4 +251,3 @@
   </script>
 </body>
 </html>
-
